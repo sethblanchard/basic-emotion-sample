@@ -9,6 +9,7 @@
   "author": "Seth Blanchard",
   "license": "ISC",
   "dependencies": {
+    "project-oxford": "^1.4.0",
     "request": "^2.75.0"
   }
 }

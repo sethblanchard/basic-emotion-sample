@@ -26,6 +26,23 @@ fs.createReadStream(testImage)
     }));
 
 
+fs.readFile(testImage, (img) =>{
+    emotionStreamOpts.body = img;
+    request.post(emotionStreamOpts, function (error, response, body) {
+        if (error) {
+            console.log(response, error);
+            return;
+        }
+
+        console.log('File callback')
+        
+       //console.log(response);
+        console.log(body);
+    })
+})
+
+
+
 
 var emotionUrlOpts = {
 	'url': 'https://api.projectoxford.ai/emotion/v1.0/recognize',
@@ -56,7 +73,18 @@ var visionOpts = {
 	}
 };
 
+var oxford = require('project-oxford'),
+    client = new oxford.Client(process.env.EMOTION_KEY);
 
+client.emotion.analyzeEmotion({
+    path: testImage,
+}).then(function (response) {
+    console.log('client API')
+    console.log(response);
+}).error(function (err) {
+    console.log('client API ERR')
+    console.log(err);
+});
 
 fs.createReadStream(testImage)
     .pipe(request.post(visionOpts, function (error, response, body) {
